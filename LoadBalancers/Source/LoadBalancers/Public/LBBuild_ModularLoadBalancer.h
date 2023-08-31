@@ -142,6 +142,9 @@ public:
 	void SetupInventory();
 	UFGInventoryComponent* GetBufferInventory();
 
+	UPROPERTY(BlueprintReadWrite)
+		bool mGroupHighlighted;
+
 	UFUNCTION()
 	void OnOutputItemRemoved( TSubclassOf<UFGItemDescriptor> itemClass, int32 numRemoved );
 
@@ -239,9 +242,9 @@ public:
 	UPROPERTY(Replicated)
 		TArray<TWeakObjectPtr<ALBBuild_ModularLoadBalancer>> mGroupModules;
 
-private:
 	/** Update our cached In and Outputs */
 	void UpdateCache();
+private:
 
 	/** Collect Logic for an Input
 	 * Return true if the Item was store into a balancer
