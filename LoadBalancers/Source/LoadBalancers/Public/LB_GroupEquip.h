@@ -30,6 +30,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		TArray< ALBBuild_ModularLoadBalancer*> splitBalancers;
 
+	UPROPERTY(BlueprintReadWrite)
+		TArray< ALBBuild_ModularLoadBalancer*> balancersToSplit;
+
 	UFUNCTION(BlueprintCallable, Category = "Equipment")
 	void MergeGroups();
 

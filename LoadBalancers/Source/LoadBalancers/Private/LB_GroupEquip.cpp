@@ -33,4 +33,11 @@ void ALB_GroupEquip::MergeGroups()
 
 void ALB_GroupEquip::SplitGroups()
 {
+	if (splitBalancers.Num() > 0)
+	{
+		for (auto balancer : splitBalancers)
+		{
+
+		}
+	}
 }

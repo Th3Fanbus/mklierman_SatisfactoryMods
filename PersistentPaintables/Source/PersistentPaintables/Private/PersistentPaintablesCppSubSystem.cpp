@@ -8,10 +8,10 @@
 
 APersistentPaintablesCppSubSystem::APersistentPaintablesCppSubSystem()
 {
-
+	PlayerCustomizationStructs.Empty();
 }
 
-#pragma optimize("", off)
+//#pragma optimize("", off)
 void APersistentPaintablesCppSubSystem::HookConstruct()
 {
 #if !WITH_EDITOR
@@ -108,7 +108,7 @@ void APersistentPaintablesCppSubSystem::UpdateColor(AFGPipeNetwork* pipeNetwork)
 
 void APersistentPaintablesCppSubSystem::UpdateColorSingle(AFGBuildable* buildable, AFGPipeNetwork* pipeNetwork)
 {
-	if (buildable)
+	if (buildable && pipeNetwork)
 	{
 		auto fluidColor = UFGItemDescriptor::GetFluidColorLinear(pipeNetwork->GetFluidDescriptor());
 		FFactoryCustomizationData newData = FFactoryCustomizationData();
@@ -228,11 +228,11 @@ void APersistentPaintablesCppSubSystem::UpdateColorSingle(AFGBuildable* buildabl
 
 void APersistentPaintablesCppSubSystem::ApplyColor(AFGBuildable* buildable, UClass* inSwatchClass, FFactoryCustomizationData customizationData)
 {
-	if (buildable && buildable->GetCanBeColored_Implementation())
+	if (buildable && buildable->GetCanBeColored_Implementation() && inSwatchClass)
 	{
 		buildable->mColorSlot = 255;
 		buildable->mDefaultSwatchCustomizationOverride = inSwatchClass;
-		buildable->ApplyCustomizationData_Implementation(customizationData);
+		//buildable->ApplyCustomizationData_Implementation(customizationData);
 		buildable->SetCustomizationData_Implementation(customizationData);
 		/*buildable->ApplyCustomizationData_Implementation(customizationData);
 		buildable->SetCustomizationData_Implementation(customizationData);*/
@@ -300,13 +300,13 @@ void APersistentPaintablesCppSubSystem::AddBuildable(AFGBuildableSubsystem* self
 	{
 		if (buildable->GetCanBeColored_Implementation())
 		{
-			if (PlayerCustomizationStructs.Num() > 0)
+			if (!PlayerCustomizationStructs.IsEmpty() && PlayerCustomizationStructs.IsValidIndex(0))
 			{
 				if (auto instigator = buildable->mBuildEffectInstignator)
 				{
 					for (auto custData : PlayerCustomizationStructs)
 					{
-						if (custData.CharacterPlayer && custData.CustomizationData.SwatchDesc && custData.CharacterPlayer == instigator && custData.CustomizationData.SwatchDesc)
+						if (custData.CharacterPlayer && custData.CharacterPlayer == instigator)
 						{
 							buildable->SetCustomizationData_Implementation(custData.CustomizationData);
 							buildable->ApplyCustomizationData_Implementation(custData.CustomizationData);
@@ -319,4 +319,4 @@ void APersistentPaintablesCppSubSystem::AddBuildable(AFGBuildableSubsystem* self
 	}
 }
 
-#pragma optimize("", on)
+//#pragma optimize("", on)

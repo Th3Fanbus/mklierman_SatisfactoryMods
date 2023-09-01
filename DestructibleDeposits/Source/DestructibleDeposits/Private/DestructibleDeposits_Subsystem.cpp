@@ -9,7 +9,10 @@ ADestructibleDeposits_Subsystem::ADestructibleDeposits_Subsystem()
 	AFGResourceDeposit* rdCDO = GetMutableDefault<AFGResourceDeposit>();
 	SUBSCRIBE_METHOD_VIRTUAL(AFGResourceDeposit::BeginPlay, rdCDO, [=](auto& scope, AFGResourceDeposit* self)
 		{
-			self->OnTakeRadialDamage.Add(RadialDamage);
+			if (self)
+			{
+				self->OnTakeRadialDamage.Add(RadialDamage);
+			}
 		});
 #endif
 }
